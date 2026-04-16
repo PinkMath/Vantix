@@ -1,44 +1,155 @@
-# Vintax
+# Vantix — Plataforma de Aprendizado em Cibersegurança
 
-## NÃO ESQUECER DE FAZER UMA BRANCHE PARA CADA UM
-
-## Tema: Cibersegurança
-
-# Design: 
-
-# Trello: https://trello.com/invite/b/69cec9ea401af666753aeb5b/ATTI76fa7bfe2fdc324c362b128097faacd8403AAACF/grand-prix-senai
-
-## 📌 Funções do Projeto
-
-| Função       | Responsabilidades | Responsável |
-|--------------|------------------|------------------|
-| Front-end    | Cuida do HTML e CSS do site, garantindo a interface visual e a experiência do usuário. | Gabi, Davi, Gustavo |
-| Back-end     | Responsável pela lógica do sistema, utilizando tecnologias como JavaScript, Python, APIs, entre outras, dependendo do projeto. | Davi, Gustavo, Matheus |
-| Tester       | Testa todas as funcionalidades do site (desktop e mobile). Identifica erros e elabora relatórios para o supervisor. | Davi, Gustavo |
-| Supervisor   | Alinha o grupo, revisa os commits no GitHub e é o único responsável por aprovar commits. | Matheus |
-| Designer     | Cria o design do site em ferramentas como Figma (ou outra escolhida) e repassa para o supervisor. | Gabi, Manu |
+WebSite: 
 
 ---
 
-## 🧩 Fluxo de Trabalho
+## 🇧🇷 Português
 
-1. **Supervisor**  
-   Responsável por organizar o time e verificar se há tarefas para repassar ao grupo.
+### Sobre o Projeto
 
-2. **Designer**  
-   Inicia o processo criando o design do projeto. O desenvolvimento só começa após essa etapa.
+**Vantix** é uma plataforma educacional de cibersegurança voltada para desenvolvedores, estudantes e profissionais de TI que desejam aprender boas práticas de segurança de forma interativa. A plataforma oferece tutoriais práticos, notícias de ameaças em tempo real, ferramentas de segurança e laboratórios hands-on — tudo em uma interface moderna e elegante.
 
-3. **Front-end / Back-end**  
-   Trabalham juntos na implementação do sistema.  
-   - O Front-end depende do design.  
-   - O Back-end e o Front-end se complementam no desenvolvimento.
+### Funcionalidades
 
-4. **Tester**  
-   Atua apenas após a finalização do desenvolvimento, garantindo que tudo funcione corretamente antes da entrega.
+- 🔬 **Laboratórios Práticos** — Simuladores de SQL Injection, Malware Scanner, Network Lab e Terminal
+- 📡 **Ameaças em Tempo Real** — Feed de notícias com as últimas vulnerabilidades e CVEs
+- 🛡️ **Ferramentas de Segurança** — Analisador de senhas, lookup de CVE, sandbox de criptografia
+- 📚 **Tutoriais** — Conteúdo estruturado para todos os níveis (iniciante ao avançado)
+- 🌐 **Multilíngue** — Suporte completo para Português (PT-BR) e Inglês (EN)
+
+### Tecnologias Utilizadas
+
+| Tecnologia | Descrição |
+|---|---|
+| React 19 | Framework frontend |
+| TypeScript | Tipagem estática |
+| Vite | Build tool |
+| Tailwind CSS | Estilização |
+| react-i18next | Internacionalização |
+| react-router-dom | Roteamento |
+
+### Como Rodar Localmente
+
+```bash
+# Clone o repositório
+git clone https://github.com/PinkMath/Vantix.git
+
+# Acesse a pasta do projeto
+cd Vantix
+
+# Instale as dependências
+npm install
+
+# Inicie o servidor de desenvolvimento
+npm run dev
+```
+
+O projeto estará disponível em `http://localhost:5173`.
+
+### Estrutura de Pastas
+
+```
+src/
+├── components/
+│   ├── base/          # Componentes base reutilizáveis
+│   └── feature/       # Componentes de funcionalidade (Navbar, Footer...)
+├── pages/
+│   ├── home/          # Página inicial
+│   └── labs/          # Laboratórios de segurança
+├── mocks/             # Dados simulados
+├── hooks/             # Custom hooks
+├── i18n/              # Arquivos de internacionalização
+└── router/            # Configuração de rotas
+```
+
+### Contribuindo
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir uma *issue* ou enviar um *pull request*. Por favor, siga as boas práticas de código e mantenha os testes atualizados.
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature: `git checkout -b feature/minha-feature`
+3. Commit suas mudanças: `git commit -m 'feat: adiciona minha feature'`
+4. Envie para o repositório: `git push origin feature/minha-feature`
+5. Abra um Pull Request
+
+### Licença
+
+Este projeto está licenciado sob a licença **MIT**. Consulte o arquivo `LICENSE` para mais informações.
 
 ---
 
-## 🤝 Trabalho em Equipe
+## 🇺🇸 English
 
-Apesar do fluxo de trabalho, **somos um grupo**:  
-Todos podem colaborar, sugerir melhorias e dar opiniões sem medo. A comunicação e o trabalho em equipe são essenciais para o sucesso do projeto.
+### About
+
+**Vantix** is a cybersecurity education and awareness platform targeted at developers, students, and IT professionals who want to learn security best practices interactively. It features hands-on labs, real-time threat intelligence news, security tools, and structured tutorials — all in a sleek, modern interface.
+
+### Features
+
+- 🔬 **Hands-on Labs** — SQL Injection simulator, Malware Scanner, Network Lab, and Terminal
+- 📡 **Real-time Threats** — Live news feed with latest vulnerabilities and CVEs
+- 🛡️ **Security Tools** — Password analyzer, CVE lookup, encryption sandbox
+- 📚 **Tutorials** — Structured content for all levels (beginner to advanced)
+- 🌐 **Multilingual** — Full support for Portuguese (PT-BR) and English (EN)
+
+### Tech Stack
+
+| Technology | Description |
+|---|---|
+| React 19 | Frontend framework |
+| TypeScript | Static typing |
+| Vite | Build tool |
+| Tailwind CSS | Styling |
+| react-i18next | Internationalization |
+| react-router-dom | Routing |
+
+### Running Locally
+
+```bash
+# Clone the repository
+git clone https://github.com/PinkMath/Vantix.git
+
+# Navigate to the project folder
+cd Vantix
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+The app will be available at `http://localhost:5173`.
+
+### Folder Structure
+
+```
+src/
+├── components/
+│   ├── base/          # Reusable base components
+│   └── feature/       # Feature components (Navbar, Footer...)
+├── pages/
+│   ├── home/          # Homepage
+│   └── labs/          # Security labs
+├── mocks/             # Mock data
+├── hooks/             # Custom hooks
+├── i18n/              # Internationalization files
+└── router/            # Route configuration
+```
+
+### Contributing
+
+Contributions are welcome! Feel free to open an issue or submit a pull request. Please follow clean code practices and keep things consistent.
+
+1. Fork the project
+2. Create your feature branch: `git checkout -b feature/my-feature`
+3. Commit your changes: `git commit -m 'feat: add my feature'`
+4. Push to the branch: `git push origin feature/my-feature`
+5. Open a Pull Request
+
+### License
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for details.
+
+---
