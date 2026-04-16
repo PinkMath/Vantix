@@ -1,7 +1,5 @@
 # Vantix — Plataforma de Aprendizado em Cibersegurança
 
-WebSite: 
-
 ---
 
 ## 🇧🇷 Português
