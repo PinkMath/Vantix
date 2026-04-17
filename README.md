@@ -1,155 +1,130 @@
-# Vantix — Plataforma de Aprendizado em Cibersegurança
+# Vantix — Ferramentas de Segurança Cibernética
 
-WebSite: https://pinkmath.github.io/Vantix/ 
+> Conjunto de ferramentas open-source para proteger suas senhas, dados e links contra ameaças digitais.
+
+WebSite - Teste o site aqui: https://github.com/PinkMath/Vantix
 
 ---
 
-## 🇧🇷 Português
+## Sobre o Projeto
 
-### Sobre o Projeto
+O **Vantix** é uma aplicação web focada em segurança digital, desenvolvida para ajudar qualquer pessoa — sem precisar ser especialista em TI — a identificar riscos e se proteger melhor no ambiente online.
 
-**Vantix** é uma plataforma educacional de cibersegurança voltada para desenvolvedores, estudantes e profissionais de TI que desejam aprender boas práticas de segurança de forma interativa. A plataforma oferece tutoriais práticos, notícias de ameaças em tempo real, ferramentas de segurança e laboratórios hands-on — tudo em uma interface moderna e elegante.
+A interface foi pensada para ser clara, rápida e direta ao ponto: cole um link, arraste uma pasta ou gere uma senha segura em segundos.
 
-### Funcionalidades
+---
 
-- 🔬 **Laboratórios Práticos** — Simuladores de SQL Injection, Malware Scanner, Network Lab e Terminal
-- 📡 **Ameaças em Tempo Real** — Feed de notícias com as últimas vulnerabilidades e CVEs
-    - 🛡️ **Ferramentas de Segurança** — Analisador de senhas, lookup de CVE, sandbox de criptografia
-    - 📚 **Tutoriais** — Conteúdo estruturado para todos os níveis (iniciante ao avançado)
-- 🌐 **Multilíngue** — Suporte completo para Português (PT-BR) e Inglês (EN)
+## Funcionalidades
 
-### Tecnologias Utilizadas
+### Scanner de Links
+Analisa uma URL em busca de padrões maliciosos, como:
+- Ausência de protocolo HTTPS
+- Uso de IP direto como domínio
+- Padrões de phishing e malware no endereço
+- URLs encurtadas e redirecionamentos suspeitos
+- Domínios anormalmente longos
 
-    | Tecnologia | Descrição |
-    |---|---|
-    | React 19 | Framework frontend |
-    | TypeScript | Tipagem estática |
-    | Vite | Build tool |
-    | Tailwind CSS | Estilização |
-    | react-i18next | Internacionalização |
-    | react-router-dom | Roteamento |
+Ao final, exibe um **score de segurança** de 0 a 100 com explicações detalhadas para cada verificação.
 
-### Como Rodar Localmente
+### Scanner de Arquivos / Pastas
+Analisa nomes de arquivos para identificar ameaças comuns como:
+- Extensões perigosas (`.exe`, `.bat`, `.ps1`, `.vbs`, `.hta`, etc.)
+- Extensões suspeitas (`.js`, `.dll`, `.iso`, `.reg`, etc.)
+- Palavras-chave maliciosas (`crack`, `trojan`, `exploit`, `keylogger`, etc.)
+- Duplas extensões disfarçadas (ex: `documento.pdf.exe`)
+- Nomes excessivamente longos
 
-    ```bash
+Aceita **arrastar e soltar pastas inteiras** com leitura recursiva de subpastas, seleção via explorador de arquivos ou seleção de arquivos avulsos.
+
+### Gerador de Senhas
+Gera senhas fortes e aleatórias com configurações personalizáveis:
+- Comprimento ajustável
+- Inclusão/exclusão de maiúsculas, números e caracteres especiais
+- Cópia rápida com um clique
+
+### Verificador de Força de Senha
+Avalia a força de qualquer senha informada com base em critérios como:
+- Comprimento mínimo
+- Diversidade de caracteres (letras, números, símbolos)
+- Nível geral: Fraca / Média / Forte / Muito Forte
+
+---
+
+## Tecnologias Utilizadas
+
+| Tecnologia | Função |
+|---|---|
+| [React 19](https://react.dev/) | Interface de usuário |
+| [TypeScript](https://www.typescriptlang.org/) | Tipagem estática |
+| [Vite](https://vitejs.dev/) | Build e dev server |
+| [Tailwind CSS](https://tailwindcss.com/) | Estilização |
+| [React Router DOM](https://reactrouter.com/) | Roteamento |
+| [Remix Icon](https://remixicon.com/) | Ícones |
+| File System API (nativa) | Leitura recursiva de pastas via drag & drop |
+
+---
+
+## Como Rodar Localmente
+
+**Pré-requisitos:** Node.js 18+ e npm
+
+```bash
 # Clone o repositório
-    git clone https://github.com/PinkMath/Vantix.git
-
-# Acesse a pasta do projeto
-    cd Vantix
+git clone https://github.com/PinkMath/Vantix.git
+cd Vantix
 
 # Instale as dependências
-    npm install
+npm install
 
 # Inicie o servidor de desenvolvimento
-    npm run dev
-    ```
+npm run dev
+```
 
-    O projeto estará disponível em `http://localhost:5173`.
+Acesse em `http://localhost:5173`
 
-### Estrutura de Pastas
+---
 
-    ```
-    src/
-    ├── components/
-    │   ├── base/          # Componentes base reutilizáveis
-│   └── feature/       # Componentes de funcionalidade (Navbar, Footer...)
-    ├── pages/
-    │   ├── home/          # Página inicial
-    │   └── labs/          # Laboratórios de segurança
-    ├── mocks/             # Dados simulados
-    ├── hooks/             # Custom hooks
-    ├── i18n/              # Arquivos de internacionalização
-    └── router/            # Configuração de rotas
-    ```
+## Estrutura do Projeto
 
-### Contribuindo
+```
+src/
+├── pages/
+│   ├── home/
+│   │   ├── components/
+│   │   │   ├── Navbar.tsx
+│   │   │   ├── HeroSection.tsx
+│   │   │   ├── AboutSection.tsx
+│   │   │   ├── ToolsSection.tsx
+│   │   │   ├── GallerySection.tsx
+│   │   │   └── Footer.tsx
+│   │   │   └── tools/
+│   │   │       ├── LinkScanner.tsx
+│   │   │       ├── PasswordGenerator.tsx
+│   │   │       └── PasswordChecker.tsx
+│   │   └── page.tsx
+│   └── scanner/
+│       ├── components/
+│       │   └── FolderScanner.tsx
+│       └── page.tsx
+├── router/
+│   ├── config.tsx
+│   └── index.ts
+└── App.tsx
+```
 
-    Contribuições são bem-vindas! Sinta-se à vontade para abrir uma *issue* ou enviar um *pull request*. Por favor, siga as boas práticas de código e mantenha os testes atualizados.
+---
 
-    1. Faça um fork do projeto
-    2. Crie uma branch para sua feature: `git checkout -b feature/minha-feature`
-    3. Commit suas mudanças: `git commit -m 'feat: adiciona minha feature'`
-    4. Envie para o repositório: `git push origin feature/minha-feature`
-    5. Abra um Pull Request
+## Aviso
 
-### Licença
+As análises realizadas pelo Vantix são **baseadas em padrões de nome, extensão e heurísticas locais**. Não substituem ferramentas de segurança profissionais como antivírus, EDR ou análise em sandbox.
 
-    Este projeto está licenciado sob a licença **MIT**. Consulte o arquivo `LICENSE` para mais informações.
+Para verificações mais aprofundadas, recomenda-se complementar com:
+- [VirusTotal](https://www.virustotal.com/) — análise de URLs e arquivos
+- [Windows Defender](https://www.microsoft.com/pt-br/windows/comprehensive-security) — proteção em tempo real
+- [Malwarebytes](https://www.malwarebytes.com/) — remoção de malware
 
-    ---
+---
 
-## 🇺🇸 English
-
-### About
-
-    **Vantix** is a cybersecurity education and awareness platform targeted at developers, students, and IT professionals who want to learn security best practices interactively. It features hands-on labs, real-time threat intelligence news, security tools, and structured tutorials — all in a sleek, modern interface.
-
-### Features
-
-    - 🔬 **Hands-on Labs** — SQL Injection simulator, Malware Scanner, Network Lab, and Terminal
-    - 📡 **Real-time Threats** — Live news feed with latest vulnerabilities and CVEs
-    - 🛡️ **Security Tools** — Password analyzer, CVE lookup, encryption sandbox
-    - 📚 **Tutorials** — Structured content for all levels (beginner to advanced)
-- 🌐 **Multilingual** — Full support for Portuguese (PT-BR) and English (EN)
-
-### Tech Stack
-
-    | Technology | Description |
-    |---|---|
-    | React 19 | Frontend framework |
-    | TypeScript | Static typing |
-    | Vite | Build tool |
-    | Tailwind CSS | Styling |
-    | react-i18next | Internationalization |
-    | react-router-dom | Routing |
-
-### Running Locally
-
-    ```bash
-# Clone the repository
-    git clone https://github.com/PinkMath/Vantix.git
-
-# Navigate to the project folder
-    cd Vantix
-
-# Install dependencies
-    npm install
-
-# Start the development server
-    npm run dev
-    ```
-
-    The app will be available at `http://localhost:5173`.
-
-### Folder Structure
-
-    ```
-    src/
-    ├── components/
-    │   ├── base/          # Reusable base components
-│   └── feature/       # Feature components (Navbar, Footer...)
-    ├── pages/
-    │   ├── home/          # Homepage
-    │   └── labs/          # Security labs
-    ├── mocks/             # Mock data
-    ├── hooks/             # Custom hooks
-    ├── i18n/              # Internationalization files
-    └── router/            # Route configuration
-    ```
-
-### Contributing
-
-    Contributions are welcome! Feel free to open an issue or submit a pull request. Please follow clean code practices and keep things consistent.
-
-    1. Fork the project
-    2. Create your feature branch: `git checkout -b feature/my-feature`
-    3. Commit your changes: `git commit -m 'feat: add my feature'`
-    4. Push to the branch: `git push origin feature/my-feature`
-    5. Open a Pull Request
-
-### License
-
-    This project is licensed under the **MIT License**. See the `LICENSE` file for details.
-
-    ---
+<p align="center">
+  Feito com foco em segurança e simplicidade.
+</p>
