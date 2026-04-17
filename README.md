@@ -2,7 +2,7 @@
 
 > Conjunto de ferramentas open-source para proteger suas senhas, dados e links contra ameaças digitais.
 
-WebSite - Teste o site aqui: https://github.com/PinkMath/Vantix
+WebSite - Teste o site [aqui](https://pinkmath.github.io/Vantix/)
 
 ---
 
