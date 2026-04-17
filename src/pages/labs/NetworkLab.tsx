@@ -224,8 +224,8 @@ export default function NetworkLab() {
   };
 
   const runScan = useCallback(async (ip?: string) => {
-    const t = (ip ?? target).trim();
-    if (!t) return;
+    const tgt = (ip ?? target).trim();
+    if (!tgt) return;
     setError("");
     setResult(null);
     setScanning(true);
@@ -239,19 +239,19 @@ export default function NetworkLab() {
     }
 
     setScanning(false);
-    const found = simulatedHosts[t];
+    const found = simulatedHosts[tgt];
     if (found) {
       setResult(found);
-      setHistory((prev) => [t, ...prev.filter((h) => h !== t)].slice(0, 6));
+      setHistory((prev) => [tgt, ...prev.filter((h) => h !== tgt)].slice(0, 6));
       setScannedAll((prev) => {
-        const next = new Set([...prev, t]);
+        const next = new Set([...prev, tgt]);
         if (next.size === totalHosts) {
           setTimeout(() => setShowCompletion(true), 900);
         }
         return next;
       });
     } else {
-      setError(`Host ${t} returned no response (filtered or offline). Available targets: ${Object.keys(simulatedHosts).join(", ")}`);
+      setError(`Host ${tgt} returned no response (filtered or offline). Available targets: ${Object.keys(simulatedHosts).join(", ")}`);
     }
   }, [target, totalHosts]);
 
@@ -314,7 +314,7 @@ export default function NetworkLab() {
             <button
               onClick={toggleTheme}
               className={`w-7 h-7 flex items-center justify-center rounded-full border cursor-pointer transition-colors ${isDark ? "border-white/10 text-gray-400 hover:text-white hover:border-white/30" : "border-gray-200 text-gray-500 hover:text-gray-800 hover:border-gray-400"}`}
-              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              title={isDark ? t("theme.light") : t("theme.dark")}
             >
               <i className={isDark ? "ri-sun-line text-sm" : "ri-moon-line text-sm"} />
             </button>
@@ -328,20 +328,17 @@ export default function NetworkLab() {
 
       <div className="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-10">
         <div className="mb-6 md:mb-8 animate-fade-up">
-          <span className={`text-[10px] font-mono tracking-widest mb-2 block ${isDark ? "text-[#00F5FF]" : "text-[#00A8B0]"}`}>[ NETWORK PENTESTING LAB ]</span>
-          <h1 className={`text-2xl md:text-4xl font-extrabold mb-3 ${textPrimary}`}>Network Penetration Testing</h1>
-          <p className={`text-sm leading-relaxed max-w-2xl ${textSecondary}`}>
-            Simulate a real network reconnaissance engagement. Scan 5 virtual hosts, identify open ports, detect OS versions,
-            analyze CVEs, and understand what each vulnerability means for an attacker.
-          </p>
+          <span className={`text-[10px] font-mono tracking-widest mb-2 block ${isDark ? "text-[#00F5FF]" : "text-[#00A8B0]"}`}>{t("labs.net_lab_badge")}</span>
+          <h1 className={`text-2xl md:text-4xl font-extrabold mb-3 ${textPrimary}`}>{t("labs.net_lab_title")}</h1>
+          <p className={`text-sm leading-relaxed max-w-2xl ${textSecondary}`}>{t("labs.net_lab_subtitle")}</p>
         </div>
 
         {/* Recon concepts */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 md:mb-8 animate-fade-up delay-100">
           {[
-            { icon: "ri-search-2-line", color: isDark ? "text-[#00F5FF]" : "text-[#00A8B0]", title: "1. Reconnaissance", desc: "Discover live hosts on a network using techniques like ARP scanning, ping sweeps, and TCP SYN probes. Identify which machines are worth investigating." },
-            { icon: "ri-door-open-line", color: isDark ? "text-[#39FF14]" : "text-emerald-600", title: "2. Port & Service Scanning", desc: "Enumerate open TCP/UDP ports on each host. Each open port is a potential attack vector — especially old, vulnerable service versions." },
-            { icon: "ri-bug-line", color: "text-rose-400", title: "3. Vulnerability Assessment", desc: "Map discovered service versions to known CVEs in the NVD database. Assign risk ratings (CVSS scores) and prioritize what to patch first." },
+            { icon: "ri-search-2-line", color: isDark ? "text-[#00F5FF]" : "text-[#00A8B0]", title: t("labs.net_recon_title"), desc: t("labs.net_recon_desc") },
+            { icon: "ri-door-open-line", color: isDark ? "text-[#39FF14]" : "text-emerald-600", title: t("labs.net_ports_title"), desc: t("labs.net_ports_desc") },
+            { icon: "ri-bug-line", color: "text-rose-400", title: t("labs.net_vuln_title"), desc: t("labs.net_vuln_desc") },
           ].map((item) => (
             <div key={item.title} className={`border rounded-xl p-5 ${cardBg}`}>
               <span className={`text-lg ${item.color} mb-3 block w-7 h-7 flex items-center justify-center`}>
@@ -358,7 +355,7 @@ export default function NetworkLab() {
           <p className={`text-[10px] font-mono mb-3 tracking-wider ${isDark ? "text-[#00F5FF]" : "text-[#00A8B0]"}`}>{t("labs.engagement_objectives")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             {Object.values(simulatedHosts).map((h) => (
-              <div key={h.ip} className={`flex items-center gap-2 text-xs font-mono`}>
+              <div key={h.ip} className="flex items-center gap-2 text-xs font-mono">
                 <span className={`w-4 h-4 flex items-center justify-center flex-shrink-0 ${scannedAll.has(h.ip) ? (isDark ? "text-[#39FF14]" : "text-emerald-500") : (isDark ? "text-gray-600" : "text-gray-300")}`}>
                   <i className={scannedAll.has(h.ip) ? "ri-checkbox-circle-fill" : "ri-circle-line"} />
                 </span>
@@ -386,7 +383,7 @@ export default function NetworkLab() {
                 value={target}
                 onChange={(e) => setTarget(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && !scanning && runScan()}
-                placeholder="Target IP (e.g. 192.168.1.100)"
+                placeholder={t("labs.net_target_placeholder")}
                 className={`flex-1 border rounded-xl px-4 py-3 text-sm font-mono focus:outline-none ${inputBg}`}
               />
               <button
@@ -433,7 +430,7 @@ export default function NetworkLab() {
                   />
                 </div>
                 <p className={`text-[10px] font-mono animate-pulse ${textMuted}`}>
-                  {progress < 25 ? "Host discovery (ICMP ping)..." : progress < 50 ? "TCP SYN port scan (ports 1–10000)..." : progress < 80 ? "Service version detection (-sV)..." : "OS fingerprinting (-O)..."}
+                  {progress < 25 ? t("labs.net_scanning_stage1") : progress < 50 ? t("labs.net_scanning_stage2") : progress < 80 ? t("labs.net_scanning_stage3") : t("labs.net_scanning_stage4")}
                 </p>
               </div>
             )}
@@ -469,7 +466,7 @@ export default function NetworkLab() {
                 <div className="flex items-center gap-3">
                   <span className={`flex items-center gap-1.5 text-[10px] font-mono border px-3 py-1.5 rounded-full ${isDark ? "text-[#39FF14] border-[#39FF14]/20 bg-[#39FF14]/5" : "text-emerald-600 border-emerald-200 bg-emerald-50"}`}>
                     <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${isDark ? "bg-[#39FF14]" : "bg-emerald-500"}`} />
-                    HOST UP — {result.latency}
+                    {t("labs.net_host_up")} — {result.latency}
                   </span>
                   <span className={`text-[10px] font-bold font-mono px-3 py-1.5 rounded-full border ${riskConfig[result.risk].color}`}>
                     {riskConfig[result.risk].label} RISK
@@ -479,17 +476,17 @@ export default function NetworkLab() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <p className={`text-[10px] font-mono mb-2 tracking-wider ${textMuted}`}>OS DETECTION</p>
+                  <p className={`text-[10px] font-mono mb-2 tracking-wider ${textMuted}`}>{t("labs.net_os_detection")}</p>
                   <p className={`text-xs font-mono ${textPrimary}`}>{result.os}</p>
                 </div>
                 <div>
-                  <p className={`text-[10px] font-mono mb-2 tracking-wider ${textMuted}`}>OPEN PORTS</p>
-                  <p className={`text-xs font-mono ${isDark ? "text-[#00F5FF]" : "text-[#00A8B0]"}`}>{result.ports.filter((p) => p.state === "open").length} open / {result.ports.length} total scanned</p>
+                  <p className={`text-[10px] font-mono mb-2 tracking-wider ${textMuted}`}>{t("labs.net_open_ports")}</p>
+                  <p className={`text-xs font-mono ${isDark ? "text-[#00F5FF]" : "text-[#00A8B0]"}`}>{result.ports.filter((p) => p.state === "open").length} {t("labs.net_open")} / {result.ports.length} {t("labs.net_total_scanned")}</p>
                 </div>
                 <div>
-                  <p className={`text-[10px] font-mono mb-2 tracking-wider ${textMuted}`}>VULNERABILITIES</p>
+                  <p className={`text-[10px] font-mono mb-2 tracking-wider ${textMuted}`}>{t("labs.net_vulnerabilities")}</p>
                   <p className={`text-xs font-mono ${result.vulnerabilities.length > 0 ? "text-red-400" : (isDark ? "text-[#39FF14]" : "text-emerald-600")}`}>
-                    {result.vulnerabilities.length > 0 ? `${result.vulnerabilities.length} found` : "None detected"}
+                    {result.vulnerabilities.length > 0 ? `${result.vulnerabilities.length} ${t("labs.net_found")}` : t("labs.net_none_detected")}
                   </p>
                 </div>
               </div>
@@ -498,7 +495,7 @@ export default function NetworkLab() {
             {/* Port table */}
             <div className={`border rounded-2xl overflow-hidden ${cardBg}`}>
               <div className={`border-b px-6 py-4 ${isDark ? "border-white/5" : "border-gray-100"}`}>
-                <p className={`text-xs font-mono font-bold ${textPrimary}`}>PORT SCAN RESULTS</p>
+                <p className={`text-xs font-mono font-bold ${textPrimary}`}>{t("labs.net_port_scan_results")}</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs font-mono">
@@ -531,7 +528,7 @@ export default function NetworkLab() {
               <div className={`border rounded-2xl overflow-hidden ${isDark ? "bg-[#13161E] border-red-500/20" : "bg-white border-red-200"}`}>
                 <div className={`border-b px-6 py-4 flex items-center gap-2 ${isDark ? "border-red-500/10" : "border-red-100"}`}>
                   <span className="w-4 h-4 flex items-center justify-center text-red-400"><i className="ri-alert-line" /></span>
-                  <p className="text-xs font-mono text-red-400 font-bold">{result.vulnerabilities.length} VULNERABILITIES DETECTED — click to learn more</p>
+                  <p className="text-xs font-mono text-red-400 font-bold">{result.vulnerabilities.length} {t("labs.net_vulns_detected")}</p>
                 </div>
                 <div className="divide-y divide-red-500/10">
                   {result.vulnerabilities.map((v, i) => (
@@ -554,7 +551,7 @@ export default function NetworkLab() {
                       </button>
                       {expandedVuln === i && (
                         <div className={`px-6 pb-4 pl-13 ${isDark ? "bg-red-500/3" : "bg-red-50/50"}`}>
-                          <div className={`ml-7 border-l-2 pl-4 border-red-500/30`}>
+                          <div className="ml-7 border-l-2 pl-4 border-red-500/30">
                             <p className={`text-xs leading-relaxed ${textSecondary}`}>{v.explanation}</p>
                           </div>
                         </div>
@@ -568,7 +565,7 @@ export default function NetworkLab() {
             {result.vulnerabilities.length === 0 && (
               <div className={`border rounded-xl px-5 py-4 flex items-center gap-3 ${isDark ? "bg-[#39FF14]/5 border-[#39FF14]/20" : "bg-emerald-50 border-emerald-200"}`}>
                 <i className={`ri-shield-check-fill ${isDark ? "text-[#39FF14]" : "text-emerald-500"}`} />
-                <p className={`text-xs font-mono ${isDark ? "text-[#39FF14]" : "text-emerald-700"}`}>No known critical vulnerabilities detected. This host has a minimal, well-maintained attack surface.</p>
+                <p className={`text-xs font-mono ${isDark ? "text-[#39FF14]" : "text-emerald-700"}`}>{t("labs.net_clean_msg")}</p>
               </div>
             )}
           </div>

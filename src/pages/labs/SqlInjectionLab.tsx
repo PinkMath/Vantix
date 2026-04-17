@@ -145,11 +145,11 @@ function SqlTerminal({ challenge, onSolve, isDark }: { challenge: Challenge; onS
       setResult({ type: "success", rows: challenge.table, cols: challenge.columns });
       onSolve();
     } else if (lc.includes("drop") || lc.includes("truncate") || lc.includes("delete")) {
-      setResult({ type: "error", msg: "ERROR: DDL/DML operations are blocked in this sandboxed environment." });
+      setResult({ type: "error", msg: t("labs.sql_ddl_blocked") });
     } else if (lc.includes("'") || lc.includes("--") || lc.includes("or") || lc.includes("union") || lc.includes("and") || lc.includes("sleep") || lc.includes("waitfor") || lc.includes("extractvalue") || lc.includes("convert")) {
-      setResult({ type: "empty", msg: "Query returned 0 rows — injection attempt did not produce results. Keep trying." });
+      setResult({ type: "empty", msg: t("labs.sql_injection_failed") });
     } else {
-      setResult({ type: "empty", msg: "Query returned 0 rows." });
+      setResult({ type: "empty", msg: t("labs.sql_query_empty") });
     }
   };
 
@@ -158,7 +158,7 @@ function SqlTerminal({ challenge, onSolve, isDark }: { challenge: Challenge; onS
   return (
     <div className="space-y-4">
       <div className={`border rounded-xl p-4 ${bg}`}>
-        <p className={`text-[10px] font-mono mb-2 tracking-wider ${isDark ? "text-gray-500" : "text-gray-400"}`}>GENERATED QUERY</p>
+        <p className={`text-[10px] font-mono mb-2 tracking-wider ${isDark ? "text-gray-500" : "text-gray-400"}`}>{t("labs.sql_generated_query")}</p>
         <code className={`text-xs font-mono leading-relaxed break-all ${isDark ? "text-[#00F5FF]" : "text-[#00A8B0]"}`}>
           {liveQuery}
         </code>
@@ -170,7 +170,7 @@ function SqlTerminal({ challenge, onSolve, isDark }: { challenge: Challenge; onS
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && run()}
-          placeholder="Enter your payload..."
+          placeholder={t("labs.sql_payload_placeholder")}
           className={`flex-1 border rounded-xl px-4 py-3 text-sm font-mono focus:outline-none ${inputBg}`}
         />
         <button
@@ -191,7 +191,7 @@ function SqlTerminal({ challenge, onSolve, isDark }: { challenge: Challenge; onS
             <>
               <div className={`px-4 py-2 border-b flex items-center gap-2 ${isDark ? "bg-[#39FF14]/5 border-[#39FF14]/20" : "bg-emerald-50 border-emerald-200"}`}>
                 <i className={`ri-checkbox-circle-fill text-sm ${isDark ? "text-[#39FF14]" : "text-emerald-600"}`} />
-                <span className={`text-xs font-bold font-mono ${isDark ? "text-[#39FF14]" : "text-emerald-700"}`}>INJECTION SUCCESSFUL — {result.rows.length} row(s) returned</span>
+                <span className={`text-xs font-bold font-mono ${isDark ? "text-[#39FF14]" : "text-emerald-700"}`}>{t("labs.sql_injection_success")} — {result.rows.length} {t("labs.sql_rows_returned")}</span>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs font-mono">
@@ -335,7 +335,7 @@ export default function SqlInjectionLab() {
             <button
               onClick={toggleTheme}
               className={`w-7 h-7 flex items-center justify-center rounded-full border cursor-pointer transition-colors ${isDark ? "border-white/10 text-gray-400 hover:text-white hover:border-white/30" : "border-gray-200 text-gray-500 hover:text-gray-800 hover:border-gray-400"}`}
-              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              title={isDark ? t("theme.light") : t("theme.dark")}
             >
               <i className={isDark ? "ri-sun-line text-sm" : "ri-moon-line text-sm"} />
             </button>
@@ -349,36 +349,33 @@ export default function SqlInjectionLab() {
 
       <div className="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-10">
         <div className="mb-6 md:mb-8 animate-fade-up">
-          <span className={`text-[10px] font-mono tracking-widest mb-2 block ${isDark ? "text-[#39FF14]" : "text-emerald-600"}`}>[ SQL INJECTION LAB ]</span>
-          <h1 className={`text-2xl md:text-4xl font-extrabold mb-3 ${textPrimary}`}>SQL Injection Basics</h1>
-          <p className={`text-sm leading-relaxed max-w-2xl ${textSecondary}`}>
-            Learn how SQL injection attacks work in a safe, sandboxed environment. No real databases are touched.
-            Complete all 6 challenges to master SQLi from basics to advanced techniques.
-          </p>
+          <span className={`text-[10px] font-mono tracking-widest mb-2 block ${isDark ? "text-[#39FF14]" : "text-emerald-600"}`}>{t("labs.sql_lab_badge")}</span>
+          <h1 className={`text-2xl md:text-4xl font-extrabold mb-3 ${textPrimary}`}>{t("labs.sql_lab_title")}</h1>
+          <p className={`text-sm leading-relaxed max-w-2xl ${textSecondary}`}>{t("labs.sql_lab_subtitle")}</p>
         </div>
 
         {/* Theory block */}
         <div className={`border rounded-2xl p-6 mb-8 animate-fade-up delay-200 ${cardBg}`}>
           <h2 className={`font-bold text-sm mb-3 flex items-center gap-2 ${textPrimary}`}>
             <span className={`w-5 h-5 flex items-center justify-center ${isDark ? "text-[#00F5FF]" : "text-[#00A8B0]"}`}><i className="ri-book-open-line" /></span>
-            What is SQL Injection?
+            {t("labs.sql_what_is_title")}
           </h2>
           <div className={`space-y-3 text-xs leading-relaxed ${textSecondary}`}>
-            <p>SQL Injection (SQLi) is a web security vulnerability that allows an attacker to interfere with the queries an application makes to its database. It&apos;s consistently ranked in the OWASP Top 10 most critical web vulnerabilities.</p>
-            <p>When user input is embedded directly into a SQL query without sanitization or parameterized queries, an attacker can insert special SQL syntax to alter the query&apos;s logic, bypass authentication, extract data, or even execute OS commands.</p>
+            <p>{t("labs.sql_what_is_p1")}</p>
+            <p>{t("labs.sql_what_is_p2")}</p>
             <div className={`rounded-lg p-4 border ${isDark ? "bg-[#0A0C10] border-white/10" : "bg-gray-50 border-gray-200"}`}>
-              <p className={`mb-2 text-[10px] ${textMuted}`}>Vulnerable code (never do this):</p>
+              <p className={`mb-2 text-[10px] ${textMuted}`}>{t("labs.sql_vulnerable_label")}</p>
               <code className={`text-[11px] ${isDark ? "text-[#00F5FF]" : "text-[#00A8B0]"}`}>
                 {`String query = "SELECT * FROM users WHERE user='" + username + "'";`}
               </code>
             </div>
             <p>
-              If <code className={`px-1 rounded ${isDark ? "text-[#39FF14] bg-[#39FF14]/10" : "text-emerald-600 bg-emerald-50"}`}>username</code> is{" "}
+              If <code className={`px-1 rounded ${isDark ? "text-[#39FF14] bg-[#39FF14]/10" : "text-emerald-600 bg-emerald-50"}`}>username</code> ={" "}
               <code className={`px-1 rounded ${isDark ? "text-rose-400 bg-rose-400/10" : "text-rose-500 bg-rose-50"}`}>&apos; OR &apos;1&apos;=&apos;1</code>,{" "}
-              the WHERE clause always evaluates to TRUE — returning ALL rows and bypassing authentication completely.
+              {t("labs.sql_example_desc")}
             </p>
             <p className={`text-[10px] font-mono ${isDark ? "text-amber-400" : "text-amber-600"}`}>
-              ⚠ Prevention: Always use parameterized queries / prepared statements. Never concatenate user input into SQL.
+              ⚠ {t("labs.sql_prevention")}
             </p>
           </div>
         </div>
@@ -430,19 +427,19 @@ export default function SqlInjectionLab() {
             <div className={`border rounded-2xl p-6 ${cardBg}`}>
               <div className="flex items-start justify-between mb-3 gap-4">
                 <div>
-                  <span className={`text-[10px] font-mono tracking-wider ${textMuted}`}>CHALLENGE {activeChallenge.id} / {challenges.length}</span>
+                  <span className={`text-[10px] font-mono tracking-wider ${textMuted}`}>{t("labs.sql_challenge_label")} {activeChallenge.id} {t("labs.sql_challenge_of")} {challenges.length}</span>
                   <h3 className={`font-bold text-lg mt-0.5 ${textPrimary}`}>{activeChallenge.title}</h3>
                 </div>
                 {solved.has(activeChallenge.id) && (
                   <span className={`flex items-center gap-1.5 text-[10px] font-mono border px-3 py-1.5 rounded-full flex-shrink-0 ${isDark ? "text-[#39FF14] border-[#39FF14]/30 bg-[#39FF14]/5" : "text-emerald-600 border-emerald-300 bg-emerald-50"}`}>
-                    <i className="ri-checkbox-circle-fill" /> SOLVED
+                    <i className="ri-checkbox-circle-fill" /> {t("labs.sql_solved_badge")}
                   </span>
                 )}
               </div>
 
               {/* Theory mini-block */}
               <div className={`rounded-lg px-4 py-3 mb-4 border-l-2 ${isDark ? "bg-[#0A0C10] border-[#00F5FF]" : "bg-[#00A8B0]/5 border-[#00A8B0]"}`}>
-                <p className={`text-[10px] font-mono mb-1 ${isDark ? "text-[#00F5FF]" : "text-[#00A8B0]"}`}>HOW IT WORKS</p>
+                <p className={`text-[10px] font-mono mb-1 ${isDark ? "text-[#00F5FF]" : "text-[#00A8B0]"}`}>{t("labs.sql_how_it_works")}</p>
                 <p className={`text-xs leading-relaxed ${textSecondary}`}>{activeChallenge.theory}</p>
               </div>
 
